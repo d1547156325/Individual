@@ -17,7 +17,6 @@ public class Main {
         //WordsDo.outWords(stopwords, fileName, -1);
 
         WordsDo.directoryTxt(stopwords, fileName, 5);
-        //WordsDoN.directoryTxt(stopwords, fileName, 10);
 
         //PhraseDo.outPhrase(fileName, 2);
        // PhraseDo.verbDo(fileName);

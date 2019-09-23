@@ -1,33 +1,50 @@
 package Util;
 
+import java.io.File;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class WordsDo {
-    public static void outWords(String fileName){
-        List<Word> wordList = new ArrayList<>();
+    /**
+     * 输出文件单词数
+     * @param fileName
+     * @param n
+     */
+    public static void outWords(String stopwords, String fileName, int n){
         Map<String, Integer> map = new HashMap<>();
         List<String> stringList = IODemoByNIO.readFileByChannel(fileName);
-        String s = "";
-        for(int i = 0; i<stringList.size(); i++){
-            s+=stringList.get(i);
+
+        //读取stopwords文件
+        List<String> stopList = IODemoByNIO.readFileByChannel(stopwords);
+        String st = "";
+        for(int i = 0; i<stopList.size(); i++) {
+            st += stopList.get(i);
         }
-        s = s.toLowerCase();
-        s = s.replace(".", " ");
-        String[] ss = s.split(" ");
-        for(int j = 0; j<ss.length; j++){
-            if(ss[j].matches("[a-z]+[0-9]*")){
-                if(map.containsKey(ss[j])){
-                    int k = map.get(ss[j]);
-                    k++;
-                    map.put(ss[j], k);
+        st = st.toLowerCase();
+
+        //读取处理目标文件
+        //String s = "";
+        for(int i = 0; i<stringList.size(); i++){
+            String s = stringList.get(i);
+            s = s.toLowerCase();
+            String regex = "\\W+";
+            Pattern pat = Pattern.compile(regex);
+            Matcher matcher = pat.matcher(s);
+            s = matcher.replaceAll(" ");
+            //s = s.replace(".", " ");
+            String[] ss = s.split("\\s+");
+            for(int j = 0; j<ss.length; j++){
+                if(ss[j].matches("[a-z]+[0-9]*") && st.indexOf(ss[j]) == -1){
+                    int value = map.getOrDefault(ss[j], 0);
+                    map.put(ss[j], value+1);
                 }
-                else
-                    map.put(ss[j], 1);
             }
         }
+
         List<Map.Entry<String,Integer>> list = new ArrayList<Map.Entry<String,Integer>>(map.entrySet());
         Collections.sort(list,new Comparator<Map.Entry<String,Integer>>() {
-            //升序排序
+            //排序
             public int compare(Map.Entry<String, Integer> o1,
                                Map.Entry<String, Integer> o2) {
                 if(o1.getValue().compareTo(o2.getValue()) == 0){
@@ -37,42 +54,51 @@ public class WordsDo {
             }
 
         });
-
+        int i = 0;
+        if(n == -1)
+            n = Integer.MAX_VALUE;
         System.out.println("单词"+ "         单词数");
         for(Map.Entry<String,Integer> mapping:list){
-            System.out.printf("%-13s",mapping.getKey());
-            System.out.println(mapping.getValue());
-            //System.out.println(mapping.getKey()+"   "+mapping.getValue());
-        }
-
-        /*
-        Set set = map.entrySet();
-        Iterator iterator = set.iterator();
-        while(iterator.hasNext()){
-            Map.Entry me = (Map.Entry) iterator.next();
-            //System.out.println(me.getKey() + " " + me.getValue());
-        }
-        */
-    }
-
-    public static class Word{
-        private String word;
-        private int count;
-
-        public String getWord() {
-            return word;
-        }
-
-        public void setWord(String word) {
-            this.word = word;
-        }
-
-        public int getCount() {
-            return count;
-        }
-
-        public void setCount(int count) {
-            this.count = count;
+            if(i < n) {
+                System.out.printf("%-13s", mapping.getKey());
+                System.out.println(mapping.getValue());
+            }
+            else
+                break;
+            i++;
         }
     }
+
+    public static void directoryTxt(String stopwords, String path, int n){
+        File file = new File(path);
+
+        File[] fileArr = file.listFiles();
+        for(File f:fileArr){
+            String s = f.getName();
+            if(f.isFile() && s.substring(s.length()-3, s.length()).equals("txt")){
+                System.out.println(f.getName());
+                outWords(stopwords, f.getPath(), n);
+                System.out.println();
+            }
+        }
+    }
+
+    public static void directory(String stopwords, String path, int n){
+        File file = new File(path);
+
+        File[] fileArr = file.listFiles();
+
+        for(File f :fileArr){
+            String s = f.getName();
+            if(f.isFile() && s.substring(s.length()-3, s.length()).equals("txt")){
+                System.out.println(f.getName());
+                outWords(stopwords, f.getPath(), n);
+                System.out.println();
+            }
+            else if(f.isDirectory()){
+                directory(stopwords, f.getPath(), n);
+            }
+        }
+    }
+
 }
