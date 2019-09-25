@@ -1,27 +1,24 @@
-package Util;
+package com.sx.individual.Util;
+
+import org.springframework.shell.standard.ShellComponent;
+import org.springframework.shell.standard.ShellMethod;
+import org.springframework.shell.standard.ShellOption;
 
 import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@ShellComponent
 public class WordsDo {
     /**
      * 输出文件单词数
-     * @param fileName
-     * @param n
      */
-    public static void outWords(String stopwords, String fileName, int n){
+    @ShellMethod(key = "wf.exe -f", value = "统计单词个数")
+    public static void outWords(String file, @ShellOption(defaultValue = "-1")int n){
         Map<String, Integer> map = new HashMap<>();
-        List<String> stringList = IODemoByNIO.readFileByChannel(fileName);
+        List<String> stringList = IODemoByNIO.readFileByChannel(file);
 
-        //读取stopwords文件
-        List<String> stopList = IODemoByNIO.readFileByChannel(stopwords);
-        String st = "";
-        for(int i = 0; i<stopList.size(); i++) {
-            st += stopList.get(i);
-        }
-        st = st.toLowerCase();
 
         //读取处理目标文件
         //String s = "";
@@ -35,7 +32,7 @@ public class WordsDo {
             //s = s.replace(".", " ");
             String[] ss = s.split("\\s+");
             for(int j = 0; j<ss.length; j++){
-                if(ss[j].matches("[a-z]+[0-9]*") && st.indexOf(ss[j]) == -1){
+                if(ss[j].matches("[a-z]+[0-9]*")){
                     int value = map.getOrDefault(ss[j], 0);
                     map.put(ss[j], value+1);
                 }
@@ -69,7 +66,8 @@ public class WordsDo {
         }
     }
 
-    public static void directoryTxt(String stopwords, String path, int n){
+    @ShellMethod(key = "wf.exe -d", value = "统计该目录下所有txt单词个数")
+    public static void directoryTxt(String path, @ShellOption(defaultValue = "-1")int n){
         File file = new File(path);
 
         File[] fileArr = file.listFiles();
@@ -77,13 +75,14 @@ public class WordsDo {
             String s = f.getName();
             if(f.isFile() && s.substring(s.length()-3, s.length()).equals("txt")){
                 System.out.println(f.getName());
-                outWords(stopwords, f.getPath(), n);
+                outWords(f.getPath(), n);
                 System.out.println();
             }
         }
     }
 
-    public static void directory(String stopwords, String path, int n){
+    @ShellMethod(key = "wf.exe -d -s", value = "统计该目录下所有目录所有txt单词个数")
+    public static void directory(String path, @ShellOption(defaultValue = "-1")int n){
         File file = new File(path);
 
         File[] fileArr = file.listFiles();
@@ -92,11 +91,11 @@ public class WordsDo {
             String s = f.getName();
             if(f.isFile() && s.substring(s.length()-3, s.length()).equals("txt")){
                 System.out.println(f.getName());
-                outWords(stopwords, f.getPath(), n);
+                outWords(f.getPath(), n);
                 System.out.println();
             }
             else if(f.isDirectory()){
-                directory(stopwords, f.getPath(), n);
+                directory(f.getPath(), n);
             }
         }
     }

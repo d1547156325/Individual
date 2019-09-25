@@ -1,14 +1,17 @@
-package domain;
+package com.sx.individual.domain;
 
-import Util.*;
 
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.shell.standard.ShellComponent;
+import org.springframework.shell.standard.ShellMethod;
+
 
 public class Main {
-    public static void main(String args[] ) throws FileNotFoundException {
+    private static String[] args;
 
+    public static void main(String args[] ) {
+
+
+        /*
         String stopwords = "D:\\course\\软件工程\\stopwords.txt";
         //Long staet=System.currentTimeMillis();
         //String fileName = "D:\\course\\\\软件工程\\ddffg.txt";
@@ -24,6 +27,8 @@ public class Main {
         //WordsDo.directory(fileName);
 
        // LetterDo.letters(fileName);
+       */
+        Main.args = args;
     }
 
 }

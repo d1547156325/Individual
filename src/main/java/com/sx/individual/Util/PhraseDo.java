@@ -1,11 +1,16 @@
-package Util;
+package com.sx.individual.Util;
+
+import org.springframework.shell.standard.ShellComponent;
+import org.springframework.shell.standard.ShellMethod;
 
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@ShellComponent
 public class PhraseDo {
 
+    @ShellMethod(key = "wf.exe -p" ,value="查询短语个数")
     public static void outPhrase(String fileName, int number){
         Map<String, Integer> map = new HashMap<>();
         List<String> stringList = IODemoByNIO.readFileByChannel(fileName);
@@ -50,6 +55,7 @@ public class PhraseDo {
         }
     }
 
+    @ShellMethod(key = "wf.exe -v" ,value="查询动词形态个数")
     public static void verbDo(String fileName){
         Map<String, Integer> map = new HashMap<>();
         List<String> stringList = IODemoByNIO.readFileByChannel(fileName);

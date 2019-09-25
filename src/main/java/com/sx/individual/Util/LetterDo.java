@@ -1,15 +1,21 @@
-package Util;
+package com.sx.individual.Util;
+
+
+import org.springframework.shell.standard.ShellComponent;
+import org.springframework.shell.standard.ShellMethod;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+
+
+@ShellComponent
 public class LetterDo{
 
+    @ShellMethod(key = "wf.exe -c", value = "统计字母个数")
     public static void letters(String filename) throws FileNotFoundException {
         Scanner scanner = new Scanner(System.in);
         List<Letter> letterList = new ArrayList<Letter>();

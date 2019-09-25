@@ -1,11 +1,12 @@
-package Util;
+package com.sx.individual.Util;
 
-import org.apache.commons.lang.StringUtils;
-
+import org.springframework.util.StringUtils;
 
 
 import java.io.*;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 import java.nio.file.Paths;
@@ -82,8 +83,9 @@ public class IODemoByNIO {
         if (StringUtils.isEmpty(filePath)) {
             return Collections.emptyList();
         }
+        Charset charset = Charset.forName("GBK");
         try {
-            List<String> lists = Files.readAllLines(Paths.get(filePath));
+            List<String> lists = Files.readAllLines(Paths.get(filePath),charset);
             int count = 0;
           //  for (String str : lists) {
                 // 输出文件内容
