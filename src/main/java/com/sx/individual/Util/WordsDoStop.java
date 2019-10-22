@@ -16,6 +16,9 @@ public class WordsDoStop {
      */
     @ShellMethod(key = "wf.exe", value = "统计单词个数", prefix = "-")
     public static void outWords(String x, String f, @ShellOption(defaultValue = "-1")int n){
+
+        double startTime = System.currentTimeMillis();
+
         Map<String, Integer> map = new HashMap<>();
         List<String> stringList = IODemoByNIO.readFileByChannel(f);
 
@@ -71,6 +74,8 @@ public class WordsDoStop {
                 break;
             i++;
         }
+
+        System.out.println("耗时： " + (System.currentTimeMillis() - startTime) + "ms");
     }
 
     //@ShellMethod(key = "wf.exe -d -s", value = "统计该目录下所有目录所有txt单词个数")

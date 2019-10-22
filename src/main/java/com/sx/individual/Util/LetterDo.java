@@ -27,6 +27,9 @@ public class LetterDo{
             letterList.add(letter);
         }
         List<String> lists = IODemoByNIO.readFileByChannel(filename);
+        if(lists == null || lists.size() == 0){
+            return ;
+        }
         int count = 0;
         for (String str : lists) {
             for(int i = 0; i<str.length(); i++){

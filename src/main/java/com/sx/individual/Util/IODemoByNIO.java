@@ -23,6 +23,7 @@ import java.util.List;
  */
 
 public class IODemoByNIO {
+    public static int counts = 0;
 
 
 
@@ -85,19 +86,14 @@ public class IODemoByNIO {
         }
         Charset charset = Charset.forName("GBK");
         try {
-            List<String> lists = Files.readAllLines(Paths.get(filePath),charset);
-            int count = 0;
-          //  for (String str : lists) {
-                // 输出文件内容
-               // System.out.println(str);
-               // count++;
-          //  }
+            List<String> lists = Files.readAllLines(Paths.get(filePath));
+            //System.out.println(111);
             return lists;
-           // System.out.println("总共输出: " + count + " 条");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("该文件不存在或该文件为空");
+            counts++;
+            //e.printStackTrace();
         }
-
         return Collections.emptyList();
     }
 }

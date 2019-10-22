@@ -1,6 +1,7 @@
 package com.sx.individual.domain;
 
 
+import com.sx.individual.Util.PhraseDo;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
@@ -10,7 +11,8 @@ public class Main {
 
     public static void main(String args[] ) {
 
-
+       // String fileName = "D:\\course\\软件工程\\词频测试数据集\\1.I Have a Dream.txt";
+       // PhraseDo.outPhrase(fileName, 2);
         /*
         String stopwords = "D:\\course\\软件工程\\stopwords.txt";
         //Long staet=System.currentTimeMillis();
@@ -28,7 +30,6 @@ public class Main {
 
        // LetterDo.letters(fileName);
        */
-        Main.args = args;
     }
 
 }

@@ -12,6 +12,8 @@ public class PhraseDo {
 
     @ShellMethod(key = "wf.exe -p" ,value="查询短语个数")
     public static void outPhrase(String fileName, int number){
+        Long startTime = System.currentTimeMillis();
+
         Map<String, Integer> map = new HashMap<>();
         List<String> stringList = IODemoByNIO.readFileByChannel(fileName);
         for(int i = 0; i<stringList.size(); i++){
@@ -53,6 +55,8 @@ public class PhraseDo {
                 System.out.printf("%-25s", mapping.getKey());
                 System.out.println(mapping.getValue());
         }
+
+        System.out.println("耗时" + (System.currentTimeMillis() - startTime));
     }
 
     @ShellMethod(key = "wf.exe -v" ,value="查询动词形态个数")

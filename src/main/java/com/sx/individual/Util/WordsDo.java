@@ -16,6 +16,9 @@ public class WordsDo {
      */
     @ShellMethod(key = "wf.exe -f", value = "统计单词个数")
     public static void outWords(String file, @ShellOption(defaultValue = "-1")int n){
+
+        double startTime = System.currentTimeMillis();
+
         Map<String, Integer> map = new HashMap<>();
         List<String> stringList = IODemoByNIO.readFileByChannel(file);
 
@@ -64,10 +67,14 @@ public class WordsDo {
                 break;
             i++;
         }
+        System.out.println("耗时: " + (System.currentTimeMillis() - startTime) + "ms");
     }
 
     @ShellMethod(key = "wf.exe -d", value = "统计该目录下所有txt单词个数")
     public static void directoryTxt(String path, @ShellOption(defaultValue = "-1")int n){
+
+        double startTime = System.currentTimeMillis();
+
         File file = new File(path);
 
         File[] fileArr = file.listFiles();
@@ -79,6 +86,9 @@ public class WordsDo {
                 System.out.println();
             }
         }
+        System.out.println("打开失败文件数："+IODemoByNIO.counts);
+        IODemoByNIO.counts = 0;
+        System.out.println("耗时: " + (System.currentTimeMillis() - startTime) + "ms");
     }
 
     @ShellMethod(key = "wf.exe -d -s", value = "统计该目录下所有目录所有txt单词个数")
