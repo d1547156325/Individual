@@ -11,9 +11,10 @@ import java.nio.file.Files;
 
 import java.nio.file.Paths;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+import java.util.Map;
 
 
 /**
@@ -25,7 +26,9 @@ import java.util.List;
 public class IODemoByNIO {
     public static int counts = 0;
 
+    public static List<String> output = new ArrayList<>();
 
+    public static String out = "";
 
     /**
 
@@ -86,7 +89,7 @@ public class IODemoByNIO {
         }
         Charset charset = Charset.forName("GBK");
         try {
-            List<String> lists = Files.readAllLines(Paths.get(filePath));
+            List<String> lists = Files.readAllLines(Paths.get(filePath), charset);
             //System.out.println(111);
             return lists;
         } catch (IOException e) {
@@ -95,5 +98,12 @@ public class IODemoByNIO {
             //e.printStackTrace();
         }
         return Collections.emptyList();
+    }
+
+    public static void writeFileByChannel(String fileName) throws IOException {
+        String path = "D:\\course\\软件工程\\" + fileName;
+        FileWriter fileWriter = new FileWriter(path,true);
+        fileWriter.write(out);
+        fileWriter.close();
     }
 }

@@ -3,6 +3,7 @@ package com.sx.individual.Util;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,8 +12,8 @@ import java.util.regex.Pattern;
 public class PhraseDo {
 
     @ShellMethod(key = "wf.exe -p" ,value="查询短语个数")
-    public static void outPhrase(String fileName, int number){
-        Long startTime = System.currentTimeMillis();
+    public static void outPhrase(String fileName, int number) throws IOException {
+        double startTime = System.currentTimeMillis();
 
         Map<String, Integer> map = new HashMap<>();
         List<String> stringList = IODemoByNIO.readFileByChannel(fileName);
@@ -50,13 +51,20 @@ public class PhraseDo {
 
         });
 
+        IODemoByNIO.out = "";
         System.out.println("短语"+ "                   短语数");
+        IODemoByNIO.out += "短语"+ "                   短语数\n";
         for(Map.Entry<String,Integer> mapping:list){
                 System.out.printf("%-25s", mapping.getKey());
+                String tt = String.format("%-25s", mapping.getKey());
+                IODemoByNIO.out +=tt;
                 System.out.println(mapping.getValue());
+                IODemoByNIO.out +=mapping.getValue() + "\n";
         }
 
-        System.out.println("耗时" + (System.currentTimeMillis() - startTime));
+        System.out.println("耗时:" + ((System.currentTimeMillis() - startTime)/1000) + "s");
+        IODemoByNIO.out += "耗时:" + ((System.currentTimeMillis() - startTime)/1000) + "s\n";
+        IODemoByNIO.writeFileByChannel("短语统计.txt");
     }
 
     @ShellMethod(key = "wf.exe -v" ,value="查询动词形态个数")
